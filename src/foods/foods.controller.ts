@@ -17,7 +17,7 @@ import { UpdateFoodDto } from './dto/update-food.dto';
 import { Request } from 'express';
 import { createWriteStream } from 'fs';
 import { join } from 'path';
-import { replaceFileName } from '../utils/util';
+import { replaceFileName, responseData } from '../utils/util';
 
 @Controller('foods')
 export class FoodsController {
@@ -25,7 +25,7 @@ export class FoodsController {
 
   @Post()
   @UseInterceptors(FileInterceptor('pic'))
-  create(
+  async create(
     @Req() request: Request,
     @UploadedFile() file: Express.Multer.File,
     @Body() createFoodDto: CreateFoodDto,
@@ -39,7 +39,8 @@ export class FoodsController {
       join(__dirname, '..', '../public/upload', `${resName}`),
     );
     writeImage.write(file.buffer);
-    return this.foodsService.create(createFoodDto);
+    await this.foodsService.create(createFoodDto);
+    return responseData(true, '文件上传成功');
   }
 
   @Get()
