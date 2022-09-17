@@ -32,7 +32,7 @@ export class FoodsController {
   ) {
     const { NODE_ENV } = process.env;
     const hostName =
-      NODE_ENV === 'development' ? 'localhost:3000' : 'ybdev.top';
+      NODE_ENV === 'development' ? 'localhost:3000' : 'fanhualianhua.top';
     const resName = replaceFileName(file.originalname);
     createFoodDto.image = `http://${hostName}/images/${resName}`;
     const writeImage = createWriteStream(
